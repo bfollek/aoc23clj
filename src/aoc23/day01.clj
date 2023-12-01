@@ -1,7 +1,7 @@
 (ns aoc23.day01
   (:require
-    ;[clojure.string as str]
    [clojure.java.io :as io]
+   [clojure.string :as str]
    [rabbithole.core :as rh]))
 
 (defn calibration-value
@@ -14,10 +14,10 @@
 
 (defn words-to-ints
   [s]
-  (clojure.string/replace s
-                          #"one|two|three|four|five|six|seven|eight|nine"
-                          {"one" "1" "two" "2" "three" "3" "four" "4" "five" "5"
-                           "six" "6" "seven" "7" "eight" "8" "nine" "9"}))
+  (str/replace s
+               #"one|two|three|four|five|six|seven|eight|nine"
+               {"one" "1" "two" "2" "three" "3" "four" "4" "five" "5"
+                "six" "6" "seven" "7" "eight" "8" "nine" "9"}))
 
 (defn part-1
   "On each line, the calibration value can be found by combining the first digit and the last digit (in that order) to form a single two-digit number."

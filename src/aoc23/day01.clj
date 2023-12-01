@@ -12,13 +12,11 @@
     rv))
 
 (defn part-1
-  "Consider your entire calibration document. What is the sum of all of the calibration values?"
+  "On each line, the calibration value can be found by combining the first digit and the last digit (in that order) to form a single two-digit number."
   [file-name]
   (with-open [rdr (io/reader file-name)]
     (reduce + (map #(calibration-value %) (line-seq rdr)))))
 
 (defn part-2
-  "Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?"
+  "...some of the digits are actually spelled out with letters: one, two, three, four, five, six, seven, eight, and nine also count as valid 'digits'."
   [file-name])
-
-

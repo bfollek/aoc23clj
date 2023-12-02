@@ -12,6 +12,10 @@
     ;(println cal-digits rv)
     rv))
 
+(defn pattern
+  [hash]
+  (re-pattern (str/join "|" (keys hash))))
+
 (defn words-to-ints
   "There are ambiguous cases, e.g. is 'eighthree' 'eight' or 'three'? What about 'sevenine'? etc. The surprising (to me) answer comes from a helpful redditor:
 
@@ -19,21 +23,20 @@
 
    We handle these special cases first. Then we do the standard replacements."
   [s]
-  (let [special {;; End/start with "o"
-                 "twone" "21"
-                 ;; End/start with "t"
-                 "eightwo" "82" "eighthree" "83"
-                 ;; End/start with "e"
-                 "oneight" "18" "threeight" "38" "fiveight" "58" "nineight" "98"
-                 ;; End/start with "n"
-                 "sevenine" "79"}
-        special-patterns (re-pattern (str/join "|" (keys special)))
-        standard {"one" "1" "two" "2" "three" "3" "four" "4"
-                  "five" "5" "six" "6" "seven" "7" "eight" "8" "nine" "9"}
-        standard-patterns (re-pattern (str/join "|" (keys standard)))]
+  (let [special-cases {;; End/start with "o"
+                       "twone" "21"
+                       ;; End/start with "t"
+                       "eightwo" "82" "eighthree" "83"
+                       ;; End/start with "e"
+                       "oneight" "18" "threeight" "38" "fiveight" "58"
+                       "nineight" "98"
+                       ;; End/start with "n"
+                       "sevenine" "79"}
+        standard-cases {"one" "1" "two" "2" "three" "3" "four" "4"
+                        "five" "5" "six" "6" "seven" "7" "eight" "8" "nine" "9"}]
     (-> s
-        (str/replace special-patterns special)
-        (str/replace standard-patterns standard))))
+        (str/replace (pattern special-cases) special-cases)
+        (str/replace (pattern standard-cases) standard-cases))))
 
 (defn part-1
   "On each line, the calibration value can be found by combining the first digit and the last digit (in that order) to form a single two-digit number."
@@ -46,4 +49,3 @@
   [file-name]
   (with-open [rdr (io/reader file-name)]
     (reduce + (map #((comp calibration-value words-to-ints) %) (line-seq rdr)))))
-

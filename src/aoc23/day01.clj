@@ -21,22 +21,21 @@
 
    The right calibration values for string 'eighthree' is 83 and for 'sevenine' is 79. - https://www.reddit.com/r/adventofcode/comments/1884fpl/2023_day_1for_those_who_stuck_on_part_2/
 
-   We handle these special cases first. Then we do the standard replacements."
+   In the reddit thread, someone had a elegant idea. Since the word overlap 
+   is never more than one letter, include the last letter of the replaced word after its replacement int, so that any next word is complete, i.e. don't 
+   replace 'one' with '1', replace it with '1e'.
+   
+   We do need to loop, because str/replace has apparently moved forward from 
+   the end of the replaced string and misses our repair job to make the next
+   word whole."
   [s]
-  (let [special-cases {;; End/start with "o"
-                       "twone" "21"
-                       ;; End/start with "t"
-                       "eightwo" "82" "eighthree" "83"
-                       ;; End/start with "e"
-                       "oneight" "18" "threeight" "38" "fiveight" "58"
-                       "nineight" "98"
-                       ;; End/start with "n"
-                       "sevenine" "79"}
-        standard-cases {"one" "1" "two" "2" "three" "3" "four" "4"
-                        "five" "5" "six" "6" "seven" "7" "eight" "8" "nine" "9"}]
-    (-> s
-        (str/replace (pattern special-cases) special-cases)
-        (str/replace (pattern standard-cases) standard-cases))))
+  (let [replacements {"one" "1e" "two" "2o" "three" "3e" "four" "4"
+                      "five" "5e" "six" "6" "seven" "7n" "eight" "8t" "nine" "9e"}]
+    (loop [current s]
+      (let [nxt (str/replace current (pattern replacements) replacements)]
+        (if (= current nxt) ; Nothing changed. We're done.
+          current
+          (recur nxt))))))
 
 (defn part-1
   "On each line, the calibration value can be found by combining the first digit and the last digit (in that order) to form a single two-digit number."

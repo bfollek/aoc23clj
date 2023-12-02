@@ -19,18 +19,13 @@
 (defn words-to-ints
   "There are ambiguous cases, e.g. is 'eighthree' 'eight' or 'three'? What about 'sevenine'? etc. The surprising (to me) answer comes from a helpful redditor:
 
-   The right calibration values for string 'eighthree' is 83 and for 'sevenine' is 79. - https://www.reddit.com/r/adventofcode/comments/1884fpl/2023_day_1for_those_who_stuck_on_part_2/
+    The right calibration values for string 'eighthree' is 83 and for 'sevenine' is 79. - [[https://www.reddit.com/r/adventofcode/comments/1884fpl/2023_day_1for_those_who_stuck_on_part_2/]]
 
-   In the reddit thread, someone had a elegant idea. Since the word overlap 
-   is never more than one letter, include the last letter of the replaced word after its replacement int, so that any next word is complete, i.e. don't 
-   replace 'one' with '1', replace it with '1e'.
-   
-   We do need to loop, because str/replace has apparently moved forward from 
-   the end of the replaced string and misses our repair job to make the next
-   word whole."
+    The best solution in the reddit discussion replaces number words not simply with their numbers, but with their possible overlap letters too. So 'eighthree' becomes 'e8t3e', and 'threeight' becomes 't3e8t'. We get the numbers we want, and a few more garbage letters for `calibration_value()` to filter out."
   [s]
-  (let [replacements {"one" "1e" "two" "2o" "three" "3e" "four" "4"
-                      "five" "5e" "six" "6" "seven" "7n" "eight" "8t" "nine" "9e"}]
+  (let [replacements {"one" "o1e" "two" "t2o" "three" "t3e" "four" "f4r"
+                      "five" "f5e" "six" "s6x" "seven" "s7n" "eight" "e8t" "nine" "n9e"}]
+    todo reduce away the gunk
     (loop [current s]
       (let [nxt (str/replace current (pattern replacements) replacements)]
         (if (= current nxt) ; Nothing changed. We're done.

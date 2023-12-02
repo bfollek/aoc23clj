@@ -12,6 +12,4 @@ lein test
 
 ### Day 1 - Done.
 
-With a little help [from reddit.](https://www.reddit.com/r/adventofcode/comments/1884fpl/2023_day_1for_those_who_stuck_on_part_2/)
-
-And when I knew what the catch was, I was too tired to do all the buffer munging. Instead, I just hard-coded the special cases.
+With help [from reddit](https://www.reddit.com/r/adventofcode/comments/1884fpl/2023_day_1for_those_who_stuck_on_part_2/) on part 2, both on what the catch was, and a clean way to handle it. I ended up rewriting my code to use [u/EyedMoon's](https://www.reddit.com/user/EyedMoon) much better idea.

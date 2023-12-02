@@ -17,20 +17,17 @@
   (re-pattern (str/join "|" (keys hash))))
 
 (defn words-to-ints
-  "There are ambiguous cases, e.g. is 'eighthree' 'eight' or 'three'? What about 'sevenine'? etc. The surprising (to me) answer comes from a helpful redditor:
+  "There are ambiguous cases, e.g. is 'eighthree' 'eight' or 'three'? What about 'sevenine'? etc. The surprising (to me) answer came from a helpful redditor:
 
-    The right calibration values for string 'eighthree' is 83 and for 'sevenine' is 79. - [[https://www.reddit.com/r/adventofcode/comments/1884fpl/2023_day_1for_those_who_stuck_on_part_2/]]
+  The right calibration values for string 'eighthree' is 83 and for 'sevenine' is 79. - [[https://www.reddit.com/r/adventofcode/comments/1884fpl/2023_day_1for_those_who_stuck_on_part_2/]]
 
-    The best solution in the reddit discussion replaces number words not simply with their numbers, but with their possible overlap letters too. So 'eighthree' becomes 'e8t3e', and 'threeight' becomes 't3e8t'. We get the numbers we want, and a few more garbage letters for `calibration_value()` to filter out."
+  My favorite solution in the discussion replaces number words not simply with their numbers, but also with their possible overlap letters. That way, we preserve possible double-use letters that are part of two number words. 
+   
+  So 'eighthree' becomes 'e8t3e', and 'threeight' becomes 't3e8t'. We get the numbers we want, and a few more garbage letters that `(calibration_value)` filters out."
   [s]
   (let [replacements {"one" "o1e" "two" "t2o" "three" "t3e" "four" "f4r"
                       "five" "f5e" "six" "s6x" "seven" "s7n" "eight" "e8t" "nine" "n9e"}]
-    todo reduce away the gunk
-    (loop [current s]
-      (let [nxt (str/replace current (pattern replacements) replacements)]
-        (if (= current nxt) ; Nothing changed. We're done.
-          current
-          (recur nxt))))))
+    (reduce (fn [s [k v]] (clojure.string/replace s k v)) s replacements)))
 
 (defn part-1
   "On each line, the calibration value can be found by combining the first digit and the last digit (in that order) to form a single two-digit number."

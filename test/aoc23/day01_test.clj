@@ -3,9 +3,9 @@
             [aoc23.day01 :refer [part-1 part-2 words-to-ints]]))
 
 (deftest words-to-ints-tests
-  (is (= "83e" (words-to-ints "eighthree")))
-  (is (= "64" (words-to-ints "sixfour")))
-  (is (= "79e" (words-to-ints "sevenine"))))
+  (is (= "e8t3e" (words-to-ints "eighthree")))
+  (is (= "s6xf4r" (words-to-ints "sixfour")))
+  (is (= "s7n9e" (words-to-ints "sevenine"))))
 
 (deftest day01-happy-path
   (testing "part-1."

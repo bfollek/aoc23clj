@@ -45,7 +45,7 @@
     (reduce + (map #(calibration-value %) (line-seq rdr)))))
 
 (defn part-2
-  " From the spec: '...some of the digits are actually spelled out with letters: one, two, three, four, five, six, seven, eight, and nine also count as valid 'digits'.'"
+  "...some of the digits are actually spelled out with letters: one, two, three, four, five, six, seven, eight, and nine also count as valid 'digits'."
   [file-name]
   (with-open [rdr (io/reader file-name)]
     (reduce + (map #((comp calibration-value words-to-ints) %) (line-seq rdr)))))
